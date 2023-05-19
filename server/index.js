@@ -12,6 +12,9 @@ import { register } from './controllers/auth.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/auth.js';
 import createPost from './controllers/createPost.js';
+import User from './models/User.js';
+import Post from './models/Post.js';
+import { users, posts } from "./data/index.js";
 
 // Configurations
 const __filename = fileURLToPath(import.meta.url);
