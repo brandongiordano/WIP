@@ -9,6 +9,9 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { register } from './controllers/auth.js';
+import userRoutes from './routes/userRoutes.js';
+import authRoutes from './routes/auth.js';
+import createPost from './controllers/createPost.js';
 
 // Configurations
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +39,11 @@ const storage = multer.diskStorage({
 const uplaod = multer({ storage });
 
 app.post('/auth/register', uplaod.single("picture"), register);
+app.post('/posts', verifyToken, upload.single('picture'), createPost)
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/userRoutes', userRoutes);
 
 // Mongoose
 const PORT = process.env.PORT || 6001;
