@@ -7,18 +7,24 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 2,
       max: 50,
+      trim: true,
     },
     lastName: {
       type: String,
       required: true,
       min: 2,
       max: 50,
+      trim: true,
     },
     email: {
       type: String,
       required: true,
       max: 50,
       unique: true,
+      match: [
+        /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
+        "Must be a valid email address",
+      ],
     },
     password: {
       type: String,
