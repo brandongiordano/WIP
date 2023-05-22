@@ -2,16 +2,18 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import dotenv from 'dptenv';
+import dotenv from 'dotenv';
 import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { register } from './controllers/auth.js';
+import { createPost } from './controllers/posts.js';
+import { verifyToken } from './middleware/auth.js';
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/auth.js';
-import createPost from './controllers/createPost.js';
+import postRoutes from './routes/postRoutes.js';
 import User from './models/User.js';
 import Post from './models/Post.js';
 import { users, posts } from "./data/index.js";
@@ -39,14 +41,15 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 });
-const uplaod = multer({ storage });
+const upload = multer({ storage });
 
-app.post('/auth/register', uplaod.single("picture"), register);
+app.post('/auth/register', upload.single("picture"), register);
 app.post('/posts', verifyToken, upload.single('picture'), createPost)
 
 // Routes
 app.use('/auth', authRoutes);
 app.use('/userRoutes', userRoutes);
+app.use('/posts', postRoutes);
 
 // Mongoose
 const PORT = process.env.PORT || 6001;
