@@ -22,7 +22,7 @@ export const authSlice = createSlice({
             state.user = null;
             state.token = null;
         },
-        setFroemds: (state, action) => {
+        setFriends: (state, action) => {
             if (state.user) {
                 state.user.friends = action.payload.friends;
             } else {
